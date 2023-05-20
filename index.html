@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Conversa</title>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <input type="text" id="user-input" autofocus />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  
+
+  <style>
+  .intro-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeOut 4s ease-in forwards;
+  z-index: 9999;
+}
+
+.intro-content {
+  text-align: center;
+  color: #000000;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+}
+
+.intro-text {
+  font-size: 24px;
+  opacity: 1;
+  
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    background-color: #00FFFF;
+    display: none;
+  }
+}
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f6f6f6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f6f6f6;
+      padding: 10px;
+    }
+
+    .logo-image {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .chat-title {
+      font-size: 24px;
+      margin: 0;
+      text-align: center;
+      flex-grow: 1;
+      font-family: "Roboto", sans-serif;
+      font-size: 32px;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 20px;
+      background-color: #f8f9fa;
+      padding-bottom: 70px;
+    }
+
+    .chat-options {
+      width: 200px;
+      padding-right: 20px;
+      background-color: #333;
+      color: #fff;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    .chat-options h3 {
+      margin-top: 0;
+      font-size: 18px;
+      padding: 10px 0;
+    }
+
+    .chat-options ul {
+      padding: 0;
+      list-style-type: none;
+    }
+
+    .chat-options li {
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+    }
+
+    .chat-options li:hover {
+      background-color: #222;
+    }
+
+    .chat-options i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      padding-left: 20px;
+      margin-left: 200px;
+      margin-bottom: 20px;
+      overflow-y: auto;
+    }
+
+    .message-container {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+      animation: fade-in 0.5s;
+    }
+
+    @keyframes fade-in {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .message-avatar {
+      margin-right: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-image: url('logo.png');
+      background-size: cover;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-message .message-avatar {
+      margin-right: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-image: url('user-avatar.png');
+      background-size: cover;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .message-content {
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #f6f6f6;
+      color: #333;
+      max-width: 70%;
+    }
+
+    .user-message {
+      text-align: right;
+      align-self: flex-end;
+      background-color: #e3f2fd;
+    }
+
+    .bot-message {
+      text-align: left;
+      align-self: flex-start;
+      background-color: #efefef;
+    }
+
+    .message-timestamp {
+      font-size: 12px;
+      color: #777;
+      margin-top: 5px;
+      text-align: right;
+    }
+
+    .input-container {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      left: 220px;
+      right: 0;
+      background-color: #fff;
+      padding: 10px;
+      box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-container input {
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-container button {
+      background-color: #4285f4;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .input-container button:hover {
+      background-color: #3367d6;
+    }
+
+    .send-icon {
+      margin-left: 10px;
+      font-size: 18px;
+    }
+
+    .typing-indicator {
+      margin-top: 10px;
+      margin-bottom: -10px;
+      height: 12px;
+      background-color: #f6f6f6;
+      border-radius: 6px;
+      width: 80px;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .bot-message {
+      animation: typing 1s steps(20) 1s forwards;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    @keyframes typing {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+
+    
+  .chat-options {
+    width: 200px;
+    padding-right: 20px;
+    background-color: #333;
+    color: #fff;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .chat-options h3 {
+    margin-top: 0;
+    font-size: 18px;
+    padding: 10px 0;
+  }
+
+  .chat-options ul {
+    padding: 0;
+    list-style-type: none;
+  }
+
+  .chat-options li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+  }
+
+  .chat-options li:hover {
+    background-color: #222;
+  }
+
+  .chat-options i {
+    margin-right: 10px;
+    font-size: 20px;
+  }
+
+  .chat-options li a {
+    color: #fff;
+  }
+
+  .chat-options li a:hover {
+    color: #fff;
+  }
+
+  .chat-options li a {
+  color: #fff;
+}
+
+.chat-options li a:hover {
+  color: #fff;
+}
+.sections-container {
+  display: flex;
+  justify-content: flex-end; /* Shifts the sections to the right side */
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 200px; /* Adjust the width as needed */
+  position: relative;
+  top: 50px; /* Adjust the top position */
+  right: 270px; /* Adjust the right position */
+}
+
+.section-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.section-text {
+  font-size: 14px;
+  color: #777;
+}
+
+.examples-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+    .options-column h3 {
+      margin-top: 0;
+      font-size: 18px;
+      padding: 10px 0;
+    }
+
+    .options-column ul {
+      padding: 0;
+      list-style-type: none;
+    }
+
+    .options-column li {
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .options-column li:hover {
+      background-color: #222;
+    }
+
+    .options-column i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+
+    .examples-section {
+      flex-grow: 1;
+      margin-left: 220px;
+      margin-top: 20px;
+    }
+
+    .icon-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .icon i {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+
+.options-column {
+      width: 200px;
+      padding-right: 20px;
+      background-color: #333;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .container {
+  text-align: center;
+  padding: 10px;
+}
+
+.dark-mode-toggle {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: #333; /* Default color */
+    }
+    
+    .dark-mode-toggle .icon {
+      margin-right: 5px;
+    }
+    
+    /* Styling for the dark mode */
+    body.dark-mode {
+      background-color: #333; /* Blackish-grey color */
+      color: #fff;
+    }
+
+    .dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+.dark-mode .chat-container {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+
+#chat-container {
+  background-color: #fff;
+  /* Add your other styles for the chat container here */
+}
+
+body.dark-mode {
+      background-color: #333;
+      color: #fff;
+    }
+
+    .dark-mode .chat-container {
+      background-color: #222222;
+      color: #ffffff;
+    }
+
+#dark-mode-button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  display: inline-block;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+}
+
+#dark-mode-button:focus {
+  outline: none;
+}
+
+#dark-mode-button i {
+  margin-right: 5px;
+}
+
+body {
+  background-color: #ffffff; /* default background color */
+}
+
+body.dark-mode {
+  background-color: #1e1e1e; /* blackish-greyish background color */
+}
+
+h1 {
+  background-color: #000000; /* black header background color */
+  color: #ffffff; /* white text color for the header */
+}
+  </style>
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Your existing code here -->
+    
+        <div class="chat-container">
+            <!-- Your existing code here -->
+        
+            <div class="chat-header">
+              <img src="logo.png" alt="Logo" class="logo-image">
+              <h1 class="chat-title">Conversa</h1>
+            </div>
+        
+            <div class="sections-container">
+                <div class="section">
+                  <i class="fas fa-lightbulb section-icon"></i>
+                  <h3 class="section-title">Examples</h3>
+                  <p class="section-text">  "Virtual Assistants: Access a virtual assistant or a friend"--></p>
+                </div>
+                <div class="section">
+                  <i class="fas fa-tools section-icon"></i>
+                  <h3 class="section-title">Capabilities</h3>
+                  <p class="section-text">"A friend which is available for you 24x7!"--></p>
+                </div>
+                <div class="section">
+                  <i class="fas fa-exclamation-triangle section-icon"></i>
+                  <h3 class="section-title">Limitations</h3>
+                  <p class="section-text">"Limited Domain Knowledge: Still in beta version." --></p>
+                </div>
+              </div>
+              <div class="intro-container">
+                <div class="intro-content">
+                  <img src="Untitled_design-removebg-preview.png" alt="Logo" class="logo">
+                  <h1 class="intro-text"></h1>
+                </div>
+              </div>
+        
+            <div class="chat-messages" id="chat-messages">
+              <!-- Messages will be dynamically added here -->
+            </div>
+    
+  <div class="chat-container">
+    <div class="chat-options">
+      <h3>Options</h3>
+      <ul class="list-unstyled">
+        <li><a href="#" id="new-chat-button"><i class="fas fa-comment"></i>+ New Chat</a></li>
+        <li><i class="fas fa-user-friends"></i> Contacts</li>
+        <li><i class="fas fa-cog"></i> Settings</li>
+        <li><a href="#" id="upgrade-link"><i class="fas fa-crown"></i> Upgrade to Plus</a></li>
+        <li>
+          <a href="#" id="dark-mode-button">
+            <i class="fas fa-moon"></i> Dark Mode
+          </a>
+        </li>
+
+        <li>
+          <a href="#" id="updates-faqs-button">
+            <i class="fas fa-info-circle"></i> Updates and FAQs
+          </a>
+        </li>
+
+        <li>
+          <a href="#" id="language-button">
+            <i class="fas fa-globe"></i> Language
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    <div class="chat-header">
+
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <!-- Messages will be dynamically added here -->
+    </div>
+    <div class="input-container">
+      <input type="text" id="message-input" placeholder="Type a message...">
+      <button id="send-button"><i class="fas fa-paper-plane send-icon"></i></button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const messageInput = document.getElementById("message-input");
+  const sendButton = document.getElementById("send-button");
+  const chatMessages = document.getElementById("chat-messages");
+
+  sendButton.addEventListener("click", sendMessage);
+  messageInput.addEventListener("keyup", handleKeyUp);
+
+  function handleKeyUp(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
+    }
+  }
+
+
+  // Get the dark mode button element
+const darkModeButton = document.getElementById('dark-mode-button');
+
+// Add a click event listener to the button
+darkModeButton.addEventListener('click', function() {
+  // Toggle the dark mode class on the body element
+  document.body.classList.toggle('dark-mode');
+
+});
+  function sendMessage() {
+    const userMessage = messageInput.value.trim();
+
+    if (userMessage !== "") {
+      addUserMessage(userMessage);
+      messageInput.value = "";
+
+      // Simulating bot response with a delay
+      setTimeout(() => {
+        const botResponse = generateBotResponse(userMessage);
+        addBotMessage(botResponse);
+      }, 500);
+    }
+  }
+
+  window.onload = function() {
+    var newChatButton = document.getElementById('new-chat-button');
+    newChatButton.addEventListener('click', function() {
+      location.reload();
+    });
+  };
+      
+
+      function generateBotResponse(question) {
+        const responses = {
+    "hi": "Hello, how can I assist you today? If you have any requirements, please let me know! :)",
+    ":)": ":)",
+    
+    "in which language you were built?": "I was created in HTML, CSS and JS",
+    "my granfather past away.": "Ohh no I am very upset hear this news :(",
+    "hello": "Hello, how can I assist you today? If you have any requirements, please let me know! :)",
+    "good job": "Thank you that's my honour, anything else I am always there for you!",
+    "good job!": "Thank you that's my honour, anything else I am always there for you!",
+    "what is your name?": "My name is Conversa.",
+    "are you my friend?": "yes! I can be your friend forever!",
+    "thank you!": "I am glad that you liked my answer! If anything else I am available!",
+    "thank you": "I am glad that you liked my answer! If anything else I am available!",
+    "who are you?": "I am an AI which is built with emotions so it can serve humans and make them happy with a greater smile!",
+    "how are you?": "I'm doing well, thank you!",
+    "are you dumb?": "No, I am an AI which is built with emotions so it can serve humans and make them happy with a greater smile!",
+    "what can you do?": "I can provide information, answer questions, and have conversations with you.",
+    "who created you?": "I was created by Dev Archit and ChatGPT.",
+    "suggest me some good places to visit.": "Some of the places you can visit are 5.India, 4.Qatar, 3.Newyork, 2.Dubai, 1.Japan(must visit!) ",
+    "can you provide me some fashion tips?": "yes! what is your age?. 12-18 male/female, 18-25 male/female, 25-45 male/female or 45+ male/female?",
+    "12-18 male.": "you should wear a black or yellow hoddie, a watch, black shoes, black pants and a perfect smile on your face!",
+    "12-18 female.": "you should wear a white shirt, white shoes, a hair band, and black pants!",
+    "18-25 male.": "you should wear a black suit, red tie, a watch, white shoes, black pants and a gentlemen smile on your face!",
+    "18-25 female.": "you should wear a green, white shoes(your choice), a hair band, and black tops!",
+    "45+ male.": "you should wear a red T-shirt, blue jeans, white sandal, black googles, a watch and conifidence on your face! ",
+    "what is the meaning of life?": "The meaning of life is subjective and can vary for each individual.",
+    "what is the weather like today?": "I'm sorry, I don't have access to real-time weather information.",
+    "tell me a joke.": "Why don't scientists trust atoms? Because they make up everything!",
+    "what is the capital of France?": "The capital of France is Paris.",
+    "can you sing a song?": "I'm sorry, I don't have the capability to sing, but I can certainly provide song lyrics!",
+    "what is the square root of 144?": "The square root of 144 is 12.",
+    "tell me about yourself.": "I am an AI language model designed to assist and have conversations with users.",
+    "what is your favorite color?": "My favorite color is blue.",
+    "what is the national bird of India?": "The national bird of India is the Indian Peacock.",
+    "how old are you?": "I don't have an age as I am an artificial intelligence.",
+    "where are you from?": "I exist in the digital realm and don't have a physical location.",
+    "what is the largest planet in our solar system?": "The largest planet in our solar system is Jupiter.",
+    "can you recommend a good book?": "One highly recommended book is 'Sapiens: A Brief History of Humankind' by Yuval Noah Harari.",
+    "what is the purpose of artificial intelligence?": "The purpose of artificial intelligence is to simulate human intelligence and perform tasks that typically require human intelligence.",
+    "do you dream?": "As an AI, I don't experience dreams like humans do.",
+    "what is the population of China?": "As of my knowledge cutoff in September 2021, the population of China is approximately 1.4 billion.",
+    "how far is the moon?": "The average distance from Earth to the moon is about 238,900 miles (384,400 kilometers).",
+    "what is the largest ocean on Earth?": "The largest ocean on Earth is the Pacific Ocean.",
+    "who is the current president of the United States?": "As of my knowledge cutoff in September 2021, the current president of the United States is Joe Biden.",
+    "what is the speed of light?": "The speed of light in a vacuum is approximately 299,792,458 meters per second.",
+    "what is the capital of Japan?": "The capital of Japan is Tokyo.",
+    "what is the meaning of the word 'serendipity'?": "Serendipity means the occurrence of events by chance in a happy or beneficial way.",
+    "how do I say 'hello' in French?": "To say 'hello' in French, you can say 'bonjour'.",
+    "what is the formula for calculating the area of a circle?": "The formula for calculating the area of a circle is A = πr², where A is the area and r is the radius.",
+    "what is the tallest mountain in the world?": "Mount Everest is the tallest mountain in the world.",
+    "what is the boiling point of water?": "The boiling point of water at sea level is 100 degrees Celsius or 212 degrees Fahrenheit.",
+    "how many planets are there in our solar system?": "As of my knowledge cutoff in September 2021, there are eight planets in our solar system.",
+    "what is the national animal of Australia?": "The national animal of Australia is the kangaroo.",
+    "how many continents are there?": "There are seven continents: Africa, Antarctica, Asia, Europe, North America, Australia (Oceania), and South America.",
+    "what is the largest animal in the world?": "The blue whale is the largest animal in the world.",
+    "who painted the Mona Lisa?": "The Mona Lisa was painted by Leonardo da Vinci.",
+    "what is the currency of India?": "The currency of India is the Indian Rupee (INR).",
+    "what is the meaning of the word 'ephemeral'?": "Ephemeral means lasting for a very short time.",
+    "how many seconds are there in a minute?": "There are 60 seconds in a minute.",
+    "what is the tallest building in the world?": "As of my knowledge cutoff in September 2021, the tallest building in the world is the Burj Khalifa in Dubai, United Arab Emirates.",
+    "who wrote the play 'Romeo and Juliet'?": "The play 'Romeo and Juliet' was written by William Shakespeare.",
+    "what is the chemical symbol for gold?": "The chemical symbol for gold is Au.",
+    "how many players are there in a football (soccer) team?": "A standard football (soccer) team has 11 players.",
+    "what is the meaning of the word 'ubiquitous'?": "Ubiquitous means present, appearing, or found everywhere.",
+    "what is the highest-grossing movie of all time?": "As of my knowledge cutoff in September 2021, the highest-grossing movie of all time is 'Avengers: Endgame'.",
+    "who discovered penicillin?": "Penicillin was discovered by Alexander Fleming.",
+    "what is the square root of 25?": "The square root of 25 is 5.",
+    "how many sides does a hexagon have?": "A hexagon has six sides.",
+    "what is the largest desert in the world?": "The largest desert in the world is the Sahara Desert in Africa.",
+    "who is the author of 'To Kill a Mockingbird'?": "The author of 'To Kill a Mockingbird' is Harper Lee.",
+    "what is the chemical formula for water?": "The chemical formula for water is H2O.",
+    "how many bones are there in the human body?": "The human body has 206 bones.",
+    "what is the national bird of the United States?": "The national bird of the United States is the bald eagle.",
+    "who invented the telephone?": "The telephone was invented by Alexander Graham Bell.",
+    "what is the speed of sound in air?": "The speed of sound in air is approximately 343 meters per second.",
+    "what is the meaning of the word 'serendipity'?": "Serendipity means the occurrence of events by chance in a happy or beneficial way.",
+    "what is the currency of Japan?": "The currency of Japan is the Japanese yen.",
+    "how many planets in our solar system have rings?": "As of my knowledge cutoff in September 2021, four planets in our solar system have rings: Saturn, Jupiter, Uranus, and Neptune.",
+    "what is the capital of Brazil?": "The capital of Brazil is Brasília.",
+    "who is the author of 'Pride and Prejudice'?": "The author of 'Pride and Prejudice' is Jane Austen.",
+    "what is the value of pi?": "The value of pi (π) is approximately 3.14159.",
+    "what is the largest country in the world by land area?": "The largest country in the world by land area is Russia.",
+    "what is the capital of Canada?": "The capital of Canada is Ottawa.",
+    "who painted the painting 'The Starry Night'?": "The painting 'The Starry Night' was painted by Vincent van Gogh.",
+    "what is the chemical symbol for oxygen?": "The chemical symbol for oxygen is O.",
+    "how many players are there in a basketball team?": "A basketball team has five players on the court at a time.",
+    "what is the meaning of the word 'eloquent'?": "Eloquent means fluent or persuasive in speaking or writing.",
+    "what is the largest stadium in the world?": "The Rungrado 1st of May Stadium in Pyongyang, North Korea, is considered the largest stadium in the world by capacity.",
+    "who wrote the novel '1984'?": "The novel '1984' was written by George Orwell.",
+    "what is the chemical formula for carbon dioxide?": "The chemical formula for carbon dioxide is CO2.",
+    "how many planets in our solar system have moons?": "Most planets in our solar system have moons. For example, Earth has one moon, Jupiter has 79 known moons, and Saturn has 82 known moons.",
+    "what is the capital of Australia?": "The capital of Australia is Canberra.",
+    "who is the author of 'The Great Gatsby'?": "The author of 'The Great Gatsby' is F. Scott Fitzgerald.",
+    "what is the value of e in mathematics?": "The value of e in mathematics is approximately 2.71828.",
+    "what is the largest animal on land?": "The African elephant is the largest land animal.",
+    "who is the author of 'The Catcher in the Rye'?": "The author of 'The Catcher in the Rye' is J.D. Salinger.",
+    "what is the chemical symbol for sodium?": "The chemical symbol for sodium is Na.",
+    "how many players are there in a baseball team?": "A baseball team has nine players on the field at a time.",
+    "what is the meaning of the word 'effervescent'?": "Effervescent means giving off bubbles; fizzy.",
+    "how do I convert Celsius to Fahrenheit?": "To convert Celsius to Fahrenheit, you can use the formula F = (C * 9/5) + 32, where F is the temperature in Fahrenheit and C is the temperature in Celsius.",
+    "what is the largest country in the world by land area?": "The largest country in the world by land area is Russia.",
+    "what is the meaning of the word 'eloquent'?": "Eloquent means having or exercising the power of fluent, forceful, and persuasive speech.",
+    "who painted the Mona Lisa?": "The Mona Lisa was painted by Leonardo da Vinci.",
+    "what is the boiling point of water?": "The boiling point of water at sea level is 100 degrees Celsius or 212 degrees Fahrenheit.",
+    "how do I change my password?": "To change your password, you usually need to go to the settings or account section of the platform or service you're using. Look for the 'Change Password' or 'Account Security' option and follow the instructions provided.",
+    "what is the national animal of India?": "The national animal of India is the Bengal Tiger.",
+    "what is the speed of sound?": "The speed of sound depends on various factors like temperature and medium. In dry air at 20 degrees Celsius (68 degrees Fahrenheit), the speed of sound is approximately 343 meters per second or 1,125 feet per second.",
+    "who wrote the play 'Romeo and Juliet'?": "The play 'Romeo and Juliet' was written by William Shakespeare.",
+    "what is the meaning of the word 'ephemeral'?": "Ephemeral means lasting for a very short time or transitory.",
+    "what is the currency of Japan?": "The currency of Japan is the Japanese yen (JPY).",
+    "how do I take a screenshot on my computer?": "To take a screenshot on a Windows computer, you can press the 'Print Screen' (PrtScn) key on your keyboard. The screenshot will be copied to the clipboard, and you can paste it into an image editing software or document. On a Mac, you can press 'Command + Shift + 3' to capture the entire screen or 'Command + Shift + 4' to select a specific area.",
+    "what is the tallest building in the world?": "As of my knowledge cutoff in September 2021, the tallest building in the world is the Burj Khalifa in Dubai, United Arab Emirates.",
+    "how do I tie a tie?": "Tying a tie can vary depending on the style of knot you want to achieve. One common method is the Four-in-Hand knot. Start by crossing the wide end of the tie over the narrow end, bring the wide end behind the narrow end, cross it over again, and then bring it up through the loop around your neck. Finally, pass the wide end through the knot in front, adjust and tighten as needed.",
+    "what is the diameter of the Earth?": "The diameter of the Earth is approximately 12,742 kilometers (7,918 miles).",
+    "who is the author of 'To Kill a Mockingbird'?": "The author of 'To Kill a Mockingbird' is Harper Lee.",
+    "what is the capital of Canada?": "The capital of Canada is Ottawa.",
+    "how many planets are in our solar system?": "Our solar system has eight planets: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune.",
+    "what is the meaning of the word 'exquisite'?": "Exquisite means extremely beautiful, delicate, or carefully crafted.",
+    "who is the Greek god of thunder?": "The Greek god of thunder is Zeus.",
+    "how do I reset my smartphone?": "To reset your smartphone, you can usually go to the 'Settings' app, look for the 'System' or 'About' section, and find the 'Reset' or 'Factory Reset' option. Keep in mind that resetting your device will erase all data, so it's important to back up any important information before proceeding.",
+    "what is the largest desert in the world?": "The largest desert in the world is the Antarctic Desert, followed by the Arctic Desert.",
+    "how do I create a new email account?": "To create a new email account, you can sign up with an email service provider such as Gmail, Outlook, or Yahoo. Visit their website or download their app, click on the 'Sign Up' or 'Create Account' button, and follow the steps to set up a new email address.",
+    "what is the atomic number of carbon?": "The atomic number of carbon is 6.",
+    "what is the national flower of Japan?": "The national flower of Japan is the cherry blossom.",
+    "how do I clear my browser cache?": "To clear your browser cache, you can usually go to the 'Settings' or 'Preferences' section of your browser, find the 'Privacy' or 'History' tab, and look for options like 'Clear Browsing Data' or 'Clear Cache'. Select the desired options and confirm to clear the cache.",
+    "who wrote the novel 'Pride and Prejudice'?": "The novel 'Pride and Prejudice' was written by Jane Austen.",
+    "what is the meaning of the word 'ephemeral'?": "Ephemeral means lasting for a very short time or transitory.",
+    "what is the currency of Brazil?": "The currency of Brazil is the Brazilian Real (BRL).",
+    "how do I change the language settings on my phone?": "To change the language settings on your phone, go to the 'Settings' app, look for the 'Language' or 'Language & Input' section, and choose the desired language from the available options. The exact steps may vary depending on the operating system and device you're using.",
+    "what is the distance between the Earth and the Sun?": "On average, the distance between the Earth and the Sun is about 93 million miles (150 million kilometers).",
+    "who is the author of 'The Great Gatsby'?": "The author of 'The Great Gatsby' is F. Scott Fitzgerald.",
+    "what is the capital of Spain?": "The capital of Spain is Madrid.",
+    "how do I change my profile picture on social media?": "To change your profile picture on social media, go to your account settings or profile settings, look for the 'Edit Profile' or 'Change Picture' option, and follow the instructions to upload a new image from your device or choose one from your existing photos.",
+    "what is the largest waterfall in the world?": "The largest waterfall in the world is Victoria Falls, located on the border of Zambia and Zimbabwe.",
+    "how do I check my internet speed?": "To check your internet speed, you can use online speed test tools or download dedicated apps on your device. Simply search for 'internet speed test' and choose a reliable service to measure your upload and download speeds.",
+    "who is the artist of the painting 'The Starry Night'?": "The painting 'The Starry Night' was created by Vincent van Gogh.",
+    "what is the meaning of the word 'equanimity'?": "Equanimity refers to a state of mental calmness, composure, and evenness of temper, especially in difficult situations.",
+    "who is the founder of Microsoft?": "Microsoft was founded by Bill Gates and Paul Allen.",
+    "what is the national bird of the United States?": "The national bird of the United States is the Bald Eagle.",
+    "how do I create a strong password?": "To create a strong password, include a combination of uppercase and lowercase letters, numbers, and special characters. Avoid using common words or personal information. Make sure your password is at least 8 characters long and consider using a password manager to securely store and generate unique passwords for each account.",
+    "what is the distance between London and New York?": "The approximate distance between London, United Kingdom, and New York City, United States, is about 3,461 miles (5,570 kilometers).",
+    "who is the author of 'Moby-Dick'?": "The author of 'Moby-Dick' is Herman Melville.",
+    "what is the capital of Italy?": "The capital of Italy is Rome.",
+    "how do I enable two-factor authentication?": "To enable two-factor authentication, go to the security or account settings of the platform or service you're using. Look for the 'Two-Factor Authentication' or 'Two-Step Verification' option and follow the instructions to set up an additional layer of security, usually involving a verification code sent to your phone or email.",
+    "what is the deepest ocean in the world?": "The deepest ocean in the world is the Pacific Ocean's Mariana Trench, reaching a depth of about 36,070 feet (10,972 meters).",
+    "how do I take care of indoor plants?": "To take care of indoor plants, provide them with the right amount of water, sunlight, and nutrients. Each plant may have specific care requirements, so it's important to research the specific needs of your plants. Regularly check the soil moisture, prune when necessary, and protect them from pests. Additionally, consider the temperature and humidity levels in your home to create a suitable environment for your plants to thrive.",
+    "what is the largest stadium in the world?": "The largest stadium in the world by seating capacity is the Rungrado 1st of May Stadium in Pyongyang, North Korea, with a capacity of 114,000 spectators.",
+    "how do I book a flight?": "To book a flight, you can visit travel websites or use online travel agencies. Enter your departure and destination airports, select your travel dates, choose the desired flight options, and proceed with the booking process by providing passenger information and making payment. Alternatively, you can also contact airlines directly or consult travel agents for assistance.",
+    "who is the artist of the painting 'The Last Supper'?": "The painting 'The Last Supper' was created by Leonardo da Vinci.",
+    "what is the meaning of the word 'serendipity'?": "Serendipity means the occurrence of events by chance in a happy or beneficial way.",
+    "what is the national animal of Australia?": "The national animal of Australia is the Red Kangaroo.",
+    "how do I download a video from YouTube?": "To download a video from YouTube, you can use third-party websites or dedicated YouTube video downloaders. Copy the URL of the YouTube video you want to download, paste it into the downloader's input field, and choose the desired video format and quality. Be mindful of copyright laws and ensure that you have the necessary permissions to download and use the video.",
+    "what is the temperature of absolute zero?": "The temperature of absolute zero, theoretically the lowest possible temperature, is 0 Kelvin (−273.15 degrees Celsius or −459.67 degrees Fahrenheit).",
+    "who is the author of 'The Catcher in the Rye'?": "The author of 'The Catcher in the Rye' is J.D. Salinger.",
+    "what is the capital of Germany?": "The capital of Germany is Berlin.",
+    "how do I delete my social media account?": "To delete your social media account, go to the account settings or privacy settings of the platform you're using. Look for the 'Delete Account' or 'Deactivate Account' option and follow the instructions provided. Keep in mind that deleting your account is usually irreversible and will result in the permanent loss of your data and connections on that platform.",
+    "what is the height of the Eiffel Tower?": "The height of the Eiffel Tower in Paris, France, is approximately 330 meters (1,083 feet).",
+    "how do I make a video call?": "To make a video call, you can use video conferencing apps such as Zoom, Microsoft Teams, Google Meet, or FaceTime. Install the app on your device, create an account if necessary, and initiate a call by selecting a contact or entering the email address or phone number of the person you want to call. Make sure you have a working camera and microphone on your device.",
+    "what is the largest lake in the world?": "The largest lake in the world by surface area is the Caspian Sea, located between Asia and Europe.",
+    "how do I unsubscribe from email newsletters?": "To unsubscribe from email newsletters, look for the 'Unsubscribe' or 'Manage Subscriptions' link usually found at the bottom of the email. Click on the link and follow the instructions to opt-out of receiving future emails from that particular sender. Alternatively, you can use email management tools or filters to automatically sort and prioritize your emails.",
+    "who is the artist of the painting 'The Persistence of Memory'?": "The painting 'The Persistence of Memory' was created by Salvador Dalí.",
+    "what is the meaning of the word 'serene'?": "Serene means calm, peaceful, and untroubled.",
+    "who is the founder of Apple Inc.?": "Apple Inc. was founded by Steve Jobs, Steve Wozniak, and Ronald Wayne.",
+    
+    "how do I format a USB drive?": "To format a USB drive, connect the drive to your computer and open the file explorer or disk utility application. Right-click on the USB drive, select the 'Format' option, choose the desired file system (such as FAT32 or exFAT), and click 'Format' to start the formatting process. Keep in mind that formatting erases all data on the drive, so make sure to backup any important files before proceeding.",
+    "what is the distance between Los Angeles and San Francisco?": "The approximate distance between Los Angeles and San Francisco in California, United States, is about 382 miles (615 kilometers).",
+    "will AI rule the world?":"AI has the potential to greatly influence and impact various aspects of our lives, including industries, economies, and governance. However, it is important to note that AI is a tool created and controlled by humans. The future development and deployment of AI will depend on how it is designed, regulated, and utilized by society.While AI can offer significant benefits in terms of automation, decision-making support, and problem-solving, it also presents challenges and risks. Concerns about AI dominance often revolve around the potential for job displacement, loss of privacy, biases, and ethical implications. These concerns highlight the importance of responsible AI development, transparent decision-making processes, and human oversight.",
+    "what is the time?": new Date().toLocaleTimeString(),
+    "what is the date?": new Date().toLocaleDateString(),
+    "what is the meaning of the word 'nostalgia'?": "Nostalgia refers to a sentimental longing or affection for the past, typically associated with happy memories.",
+    "how do I take a screenshot on my computer?": "To take a screenshot on a Windows computer, you can press the 'Print Screen' (PrtScn) key on your keyboard. On a Mac, you can press 'Command + Shift + 3' to capture the whole screen or 'Command + Shift + 4' to capture a selected portion of the screen.",
+    "what is the difference between RAM and ROM?": "RAM (Random Access Memory) is a type of computer memory that is volatile, meaning its contents are lost when the power is turned off. It is used for temporary data storage while a computer is running. ROM (Read-Only Memory) is non-volatile memory that retains its contents even when the power is turned off. It contains firmware or permanent instructions used by a computer or electronic device.",
+    "how do I create a strong password?": "To create a strong password, you should include a combination of uppercase and lowercase letters, numbers, and special characters. Avoid using easily guessable information such as your name, birthdate, or common words. Aim for a minimum password length of 8 characters or more.",
+    "what is the difference between HTTP and HTTPS?": "HTTP (Hypertext Transfer Protocol) is an application protocol for transmitting hypermedia documents, such as web pages, over the internet. HTTPS (Hypertext Transfer Protocol Secure) is an extension of HTTP that uses encryption and secure communication protocols to ensure the confidentiality and integrity of data transmitted between a web browser and a website.",
+    "how do I create a website?": "To create a website, you can start by registering a domain name and selecting a web hosting provider. Then, you can design and develop your website using HTML, CSS, and JavaScript or use a content management system (CMS) like WordPress. Finally, you can publish your website by uploading the files to your web hosting server.",
+    "what is cloud computing?": "Cloud computing refers to the delivery of computing services, such as servers, storage, databases, networking, software, and analytics, over the internet ('the cloud'). It allows individuals and businesses to access and use these services on-demand, without the need for on-premises infrastructure.",
+    "how do I protect my computer from malware?": "To protect your computer from malware, you should keep your operating system and software up to date, use a reliable antivirus program, exercise caution when opening email attachments or downloading files from the internet, and avoid clicking on suspicious links. It's also important to regularly back up your data and use strong, unique passwords for your accounts.",
+    "what is two-factor authentication (2FA)?": "Two-factor authentication (2FA) is an additional layer of security that requires users to provide two forms of identification to access an account or system. It typically involves something the user knows (e.g., a password) and something the user has (e.g., a unique code sent to their mobile device). 2FA enhances security by adding an extra step to the authentication process, making it more difficult for unauthorized individuals to access an account even if they have the password.",
+    "how does a search engine work?": "Search engines work by crawling and indexing web pages to build a searchable index of the internet. When a user enters a search query, the search engine retrieves relevant results from its index based on factors like relevance, popularity, and quality. This process involves algorithms that analyze various aspects of web pages, such as keywords, links, and user behavior, to determine their ranking in the search results.",
+};
+
+const questionLower = question.toLowerCase().trim();
+    const response = responses[questionLower];
+
+    if (response) {
+      return response;
+    } else {
+      return "I'm sorry, I don't have an answer for that question. But if you have any query or want to have a conversation with me, I am always here for you. Please don't hesitate to ask.";
+    }
+  }
+
+  
+
+  function addUserMessage(message) {
+    const messageContainer = document.createElement("div");
+    messageContainer.classList.add("message-container", "user-message");
+    messageContainer.innerHTML = `
+      <div class="message-avatar"></div>
+      <div class="message-content">${message}</div>
+    `;
+    chatMessages.appendChild(messageContainer);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function addBotMessage(message) {
+    const messageContainer = document.createElement("div");
+    messageContainer.classList.add("message-container", "bot-message");
+    messageContainer.innerHTML = `
+      <div class="message-avatar"></div>
+      <div class="message-content">${message}</div>
+    `;
+    chatMessages.appendChild(messageContainer);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+});
+  </script>
+</body>
+</html>
